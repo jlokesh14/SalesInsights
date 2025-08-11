@@ -1,0 +1,40 @@
+table 'sales customers'
+	lineageTag: fdb70214-97ce-479d-9899-5fec9d4183ca
+
+	column customer_code
+		dataType: string
+		lineageTag: 52c1e670-e4b8-4f13-b3c2-c3ef31135c7d
+		summarizeBy: none
+		sourceColumn: customer_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column custmer_name
+		dataType: string
+		lineageTag: 6dcde824-12d1-4d47-a8b7-2c7cb729f5f8
+		summarizeBy: none
+		sourceColumn: custmer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: 75615564-3d00-429d-b067-441b1778d55d
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'sales customers' = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database("localhost", "sales", [ReturnSingleDatabase=true]),
+				    sales_customers = Source{[Schema="sales",Item="customers"]}[Data]
+				in
+				    sales_customers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

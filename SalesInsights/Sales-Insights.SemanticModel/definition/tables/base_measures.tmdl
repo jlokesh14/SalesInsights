@@ -1,0 +1,45 @@
+table base_measures
+	lineageTag: da722513-8367-4084-86b1-b821b838f614
+
+	measure Revenue = sum('sales transactions'[normalized_sales_amount])
+		formatString: "₹"#,0.00;-"₹"#,0.00;"₹"#,0.00
+		lineageTag: cbfbbcfb-b1e8-4d63-a7b4-9b6aee774ecb
+
+		annotation PBI_FormatHint = {"currencyCulture":"hi-Latn-IN"}
+
+	measure sales_Qty = sum('sales transactions'[sales_qty])
+		formatString: 0
+		lineageTag: b46e303c-b0ea-4977-838d-027bc25b6a7e
+
+	measure 'Total profit margin' = sum('sales transactions'[profit_margin])
+		lineageTag: e7815af7-4d92-46f1-adf7-b02fc79555a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'profit margin %' = DIVIDE([Total profit margin],[Revenue],0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 443b368a-c7ec-4557-8120-912507916969
+
+	measure 'profit margin percentage'
+		lineageTag: fb498cb8-728c-4359-9461-1866071a01e6
+
+	measure 'Profit Margin Contribution %' = DIVIDE([Total Profit Margin],CALCULATE([Total Profit Margin],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 420b0658-1afb-4756-9a5e-41f645fe50a5
+
+	measure 'Revenue Contribution %' = DIVIDE([Revenue],CALCULATE([Revenue],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c1a8df2f-42c6-47aa-bffc-d648ea3b1bf2
+
+	partition base_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

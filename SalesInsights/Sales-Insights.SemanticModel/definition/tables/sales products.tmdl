@@ -1,0 +1,32 @@
+table 'sales products'
+	lineageTag: 93ac692d-6af8-468f-a26a-8eedf20cf7cf
+
+	column product_code
+		dataType: string
+		lineageTag: 96f29417-e2a4-4265-903f-c93545dae05c
+		summarizeBy: none
+		sourceColumn: product_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_type
+		dataType: string
+		lineageTag: 0617e9ef-e54b-4f9b-954b-0571d16718b4
+		summarizeBy: none
+		sourceColumn: product_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'sales products' = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database("localhost", "sales", [ReturnSingleDatabase=true]),
+				    sales_products = Source{[Schema="sales",Item="products"]}[Data]
+				in
+				    sales_products
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

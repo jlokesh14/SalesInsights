@@ -1,0 +1,41 @@
+table 'sales markets'
+	lineageTag: a1dc55e5-561e-4b47-a533-e6fed85f7d95
+
+	column markets_code
+		dataType: string
+		lineageTag: 5205ff5d-c939-45df-a8ec-a255fbf33761
+		summarizeBy: none
+		sourceColumn: markets_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column markets_name
+		dataType: string
+		lineageTag: d180c345-b7dd-4a50-ad05-d356265d7b27
+		summarizeBy: none
+		sourceColumn: markets_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column zone
+		dataType: string
+		lineageTag: 65b032c8-17b3-45c5-8d2f-185ec03115ec
+		summarizeBy: none
+		sourceColumn: zone
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'sales markets' = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database("localhost", "sales", [ReturnSingleDatabase=true]),
+				    sales_markets = Source{[Schema="sales",Item="markets"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(sales_markets, each ([zone] <> ""))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,5 @@
+{
+  "objectId": "",
+  "type": 4,
+  "explorationState": "{\"version\":\"1.8\",\"activeSection\":\"\",\"sections\":{\"94f1c075b9d3d3853dea\":{\"visualContainers\":{\"dacf9d4ab18a94014cb5\":{\"singleVisual\":{\"visualType\":\"lineChart\",\"mobileObjects\":{\"categoryAxis\":[],\"valueAxis\":[],\"dataPoint\":[],\"lineStyles\":[{\"properties\":{\"strokeWidth\":{\"expr\":{\"Literal\":{\"Value\":\"1D\"}}}}}]}}}}},\"cea7436f5f5d0cfd2919\":{\"visualContainers\":{\"e2d51478dc2c027cc14f\":{\"singleVisual\":{\"visualType\":\"lineChart\",\"mobileObjects\":{\"categoryAxis\":[],\"valueAxis\":[],\"dataPoint\":[],\"lineStyles\":[{\"properties\":{\"strokeWidth\":{\"expr\":{\"Literal\":{\"Value\":\"1D\"}}}}}]}}}}}}}"
+}
